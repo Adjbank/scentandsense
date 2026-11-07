@@ -1,0 +1,70 @@
+# Shinrin-Yoku @ ไร่เชิญตะวัน 🍃
+
+เว็บแอป (PWA) สำหรับผู้ที่ต้องการบำบัดกายและใจด้วยการ "อาบป่า" (Shinrin-Yoku / 森林浴)
+ที่ศูนย์วิปัสสนาสากลไร่เชิญตะวัน จ.เชียงราย — ถ่ายรูปต้นไม้แล้วรู้จักสายพันธุ์ ประวัติ
+และเอกลักษณ์ด้านกลิ่นของพืชพรรณไทย สื่อสารได้ทั้งภาษาไทยและอังกฤษ
+
+พัฒนาโดย บริษัท เซนท์ แอนด์ เซนส์ แลบอราทอรี่ จำกัด
+
+## ความสามารถ
+
+| หน้า | ทำอะไร |
+|---|---|
+| `/` | แนะนำ Shinrin-Yoku และไร่เชิญตะวัน |
+| `/identify` | ถ่ายรูป/อัปโหลดภาพ → Claude vision ระบุพันธุ์พืช (สูงสุด 3 ตัวเลือก + ความมั่นใจ) → แสดงประวัติ เอกลักษณ์กลิ่น สารหอมหลัก (% + CAS) และแหล่งอ้างอิง |
+| `/plants` | สารานุกรมพืชหอม 26 ชนิด ค้นหา/กรองตามกลุ่มกลิ่น |
+| `/plants/[slug]` | รายละเอียดพืชแต่ละชนิด สองภาษา |
+| `/walk` | เส้นทางอาบป่า 5 สถานี พร้อมตัวจับเวลาหายใจ 4-7-8 |
+
+## เทคโนโลยี
+
+- Next.js 16 (App Router, TypeScript, Tailwind CSS 4) — ติดตั้งเป็น PWA บนมือถือได้
+- Anthropic SDK: `claude-opus-5-5` + structured output (zod) + server-side fallback
+- ฐานข้อมูลพืชอยู่ในโค้ด: `src/data/plants.ts`
+- ทดสอบด้วย Vitest (`tests/`)
+
+## เริ่มใช้งาน
+
+```bash
+npm install
+cp .env.example .env.local   # ใส่ ANTHROPIC_API_KEY
+npm run dev                  # http://localhost:3000
+```
+
+ถ้าไม่ตั้ง `ANTHROPIC_API_KEY` หน้าอื่นยังใช้ได้ แต่ `/identify` จะแจ้งว่ายังไม่ได้ตั้งค่า (HTTP 503)
+
+```bash
+npm test        # vitest
+npm run lint
+npm run build
+```
+
+## Deploy บน Vercel
+
+1. Import repo → Framework: Next.js (ตรวจจับอัตโนมัติ)
+2. Environment Variables: `ANTHROPIC_API_KEY`
+3. Route `/api/identify` ตั้ง `maxDuration = 60` วินาทีไว้แล้ว
+
+## โครงสร้าง
+
+```
+src/app/            หน้าเว็บ + /api/identify
+src/components/     UI (Nav, PlantBits, IdentifyClient, WalkClient, PlantsBrowser)
+src/data/plants.ts  ฐานข้อมูลพืช + โปรไฟล์กลิ่น + แหล่งอ้างอิง
+src/data/walk.ts    สถานีเส้นทางอาบป่า
+src/lib/identify/   schema (zod) · claude (SDK) · merge (รวมผลกับฐานข้อมูล)
+src/lib/i18n.ts     ข้อความ UI ไทย/อังกฤษ
+docs/superpowers/specs/  เอกสารออกแบบ
+```
+
+## การเพิ่มพืชใหม่
+
+เพิ่ม object ใน `src/data/plants.ts` ตาม type `Plant` (`src/data/types.ts`)
+แล้วรัน `npm test` — เทสต์จะตรวจว่า slug ไม่ซ้ำ ข้อความครบสองภาษา
+สัดส่วนสารหอมสมเหตุสมผล และมีแหล่งอ้างอิงอย่างน้อย 1 รายการ
+
+## ข้อจำกัดที่ควรรู้
+
+- รายชื่อพืช 26 ชนิดเป็นพืชหอมที่พบทั่วไปในเชียงราย/ล้านนา ยังไม่ได้สำรวจพื้นที่จริงของไร่เชิญตะวัน
+- การระบุพืชด้วย AI อาจผิดพลาด ห้ามรับประทานหรือสัมผัสพืชที่ไม่รู้จักโดยอาศัยผลจากแอปเพียงอย่างเดียว
+- สัดส่วนสารหอม (%) เป็นช่วงจากวรรณกรรม แปรตามพันธุ์ ฤดูกาล และวิธีสกัด
