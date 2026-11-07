@@ -25,8 +25,8 @@ export const UI = {
     },
     whyTitle: { th: "ทำไมต้องกลิ่น", en: "Why scent" },
     whyBody: {
-      th: "กลิ่นเป็นประสาทสัมผัสเดียวที่เชื่อมตรงเข้าสู่สมองส่วนอารมณ์และความทรงจำ งานวิจัย Shinrin-Yoku ในญี่ปุ่นพบว่าการสูดสารระเหยจากป่า (phytoncide เช่น α-pinene) สัมพันธ์กับความดันโลหิตและระดับคอร์ติซอลที่ลดลง ที่นี่คุณจะได้พบกลิ่นที่มีเฉพาะในพืชไทย เช่น ชมนาดที่หอมเหมือนข้าวหอมมะลิ",
-      en: "Smell is the only sense wired directly into the brain's emotion and memory centres. Japanese Shinrin-Yoku research links inhaling forest volatiles (phytoncides such as α-pinene) with lower blood pressure and cortisol. Here you will meet scents unique to Thai plants, like the bread flower that smells of jasmine rice.",
+      th: "กลิ่นเป็นประสาทสัมผัสเดียวที่เชื่อมตรงเข้าสู่สมองส่วนอารมณ์และความทรงจำ งานวิจัย Shinrin-Yoku ในญี่ปุ่นพบว่าการสูดสารระเหยจากป่า (phytoncide เช่น α-pinene) สัมพันธ์กับความดันโลหิตและระดับคอร์ติซอลที่ลดลง ในสวนลำไยของไร่มีพืช 67 ชนิดพร้อมป้ายหมายเลข ตั้งแต่พะยอมที่หอมไกลหลายสิบเมตร ไปจนถึงว่านสาวหลงที่กลิ่นติดมือนานผิดปกติ",
+      en: "Smell is the only sense wired directly into the brain's emotion and memory centres. Japanese Shinrin-Yoku research links inhaling forest volatiles (phytoncides such as α-pinene) with lower blood pressure and cortisol. The centre's longan plot holds 67 numbered species, from white meranti whose scent carries tens of metres to wan sao long whose scent clings to your hands.",
     },
   },
   identify: {
@@ -69,6 +69,10 @@ export const UI = {
     all: { th: "ทั้งหมด", en: "All" },
     count: { th: "ชนิด", en: "species" },
     description: { th: "ลักษณะ", en: "Description" },
+    sign: { th: "ป้าย", en: "Sign" },
+    plot: { th: "แปลงปลูก", en: "Plot" },
+    uncertain: { th: "ชื่อวิทยาศาสตร์ยังต้องยืนยันจากต้นจริง (ชื่อพื้นบ้านอาจใช้กับหลายชนิด)", en: "Scientific name still to be confirmed on the actual plant (the local name is used for more than one species)" },
+    catalogueIntro: { th: "พืช 67 ชนิดตามป้ายชื่อ \"สมุนไพรในสวนลำไย\" เรียงตามหมายเลขป้าย", en: "The 67 species on the 'herbs in the longan orchard' signs, in sign order" },
   },
   walk: {
     title: { th: "เส้นทางอาบป่า 5 สถานี", en: "A five-station forest bath" },

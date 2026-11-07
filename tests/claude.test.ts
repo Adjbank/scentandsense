@@ -7,5 +7,6 @@ describe("buildSystemPrompt", () => {
     const prompt = buildSystemPrompt();
     for (const p of PLANTS) expect(prompt).toContain(`- ${p.slug} |`);
     expect(prompt).toContain("Chiang Rai");
+    expect(prompt).toContain("sign 67 |");
   });
 });

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { PLANTS } from "@/data/plants";
-import type { ScentFamily } from "@/data/types";
+import { PLOT, type ScentFamily } from "@/data/types";
 import { UI, t } from "@/lib/i18n";
 import { useLang } from "@/lib/lang-context";
 import { PlantCard, SCENT_FAMILY_LABEL } from "./PlantBits";
@@ -19,6 +19,7 @@ export function PlantsBrowser() {
     return PLANTS.filter((p) => {
       if (family !== "all" && !p.scentFamilies.includes(family)) return false;
       if (!needle) return true;
+      if (/^\d+$/.test(needle)) return p.signNo === Number(needle);
       return [p.thaiName, p.englishName, p.scientificName, ...(p.otherNames ?? [])].some((n) => n.toLowerCase().includes(needle));
     });
   }, [q, family]);
@@ -26,11 +27,14 @@ export function PlantsBrowser() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-forest">{t(UI.nav.plants, lang)}</h1>
+      <p className="text-sm text-ink/70">
+        {t(UI.plant.catalogueIntro, lang)} · {t(PLOT.plantedLabel, lang)}
+      </p>
       <input
         type="search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder={t(UI.plant.search, lang)}
+        placeholder={`${t(UI.plant.search, lang)} / ${t(UI.plant.sign, lang)} 1–67`}
         className="w-full rounded-full border border-moss/30 bg-white/80 px-4 py-2.5 text-sm outline-none focus:border-forest"
       />
       <div className="flex gap-1.5 overflow-x-auto pb-1">

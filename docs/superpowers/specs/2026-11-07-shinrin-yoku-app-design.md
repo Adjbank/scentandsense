@@ -24,7 +24,7 @@
 |---|---|---|
 | แพลตฟอร์ม | Web app (Next.js) ติดตั้งเป็น PWA บนมือถือได้ | ไม่ต้องผ่าน App Store, ใช้กล้องผ่าน `<input capture>` ได้, ขึ้น Vercel ได้ทันที |
 | ตัวระบุพืช | Claude vision (`claude-opus-5-5`) + ฐานข้อมูลพืชในแอป | ไม่ต้องเทรนโมเดลเอง, ให้คำอธิบายเป็นภาษาไทยได้ทันที, มี structured output |
-| ฐานข้อมูลพืช | ไฟล์ TypeScript ในโค้ด 26 ชนิดที่พบในเชียงราย/ล้านนา | ยังไม่มีรายการพืชจริงของไร่เชิญตะวัน; ต้องให้ทีมสำรวจพื้นที่มาเติม |
+| ฐานข้อมูลพืช | ไฟล์ TypeScript ในโค้ด 67 ชนิดตามป้ายชื่อ "สมุนไพรในสวนลำไย" (CEO ส่งรายชื่อให้ 2026-11-07) เรียงตามหมายเลขป้าย | รายการจริงของไร่; ชื่อวิทยาศาสตร์ 7 รายการติดธงให้ยืนยันจากต้นจริง |
 | ภาษา | UI ไทยเป็นหลัก, สลับอังกฤษได้ | ตรงเป้าหมาย "ผู้ปฏิบัติธรรมทั่วโลก" |
 | บัญชีผู้ใช้/ฐานข้อมูล | ไม่มีในรุ่นแรก | YAGNI; ประวัติการสแกนเก็บใน localStorage ของเครื่อง |
 
@@ -59,7 +59,7 @@ Browser (PWA)                      Next.js (Vercel)                   Anthropic 
 ### โมดูล
 | โมดูล | หน้าที่ | พึ่งพา |
 |---|---|---|
-| `src/data/plants.ts` | ข้อมูลพืช (type `Plant`) | — |
+| `src/data/plants/part1–4.ts` + `src/data/plants.ts` | ข้อมูลพืช 67 ชนิด (type `Plant` มี `signNo`), `PLOT` metadata | — |
 | `src/lib/identify/schema.ts` | zod schema ของผลลัพธ์จาก Claude | zod |
 | `src/lib/identify/merge.ts` | รวม candidates กับ KB → `IdentifyResult` (pure, ทดสอบได้) | plants, schema |
 | `src/lib/identify/claude.ts` | เรียก Claude (`client.beta.messages.parse`, fallbacks "default") | SDK |
@@ -70,7 +70,7 @@ Browser (PWA)                      Next.js (Vercel)                   Anthropic 
 ### การไหลของข้อมูล `/api/identify`
 1. รับ `{ image: base64, mediaType }` (≤ 5 MB หลัง resize ฝั่ง client)
 2. ไม่มี `ANTHROPIC_API_KEY` → 503 `{code: "NO_API_KEY"}`
-3. system prompt (cache_control) = บทบาทนักพฤกษศาสตร์ + รายการพืชใน KB (slug, ชื่อวิทย์, ชื่อไทย)
+3. system prompt (cache_control) = บทบาทนักพฤกษศาสตร์ + รายการพืชใน KB (slug, เลขป้าย, ชื่อวิทย์, ชื่อไทย) + บริบทว่าเป็นกล้าไม้อายุน้อยในแปลงลำไย
 4. Claude คืน `{ isPlant, candidates[≤3]{scientificName, thaiName, englishName, family, confidence 0–1, matchedSlug|null, reasoning}, observedFeatures[] }`
 5. `merge()` : ถ้า `matchedSlug` อยู่ใน KB → แนบข้อมูล KB; ถ้าไม่ → ใช้ข้อมูลที่โมเดลสรุป (scentSummary, history) และติดธง `inKnowledgeBase: false`
 6. `stop_reason === "refusal"` → 422 `{code: "REFUSED"}`; parse ล้มเหลว → 502

@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { PLANTS, getPlant } from "@/data/plants";
+import { PLANTS, getPlant, getPlantBySign } from "@/data/plants";
 
 describe("plant knowledge base", () => {
-  it("has at least 20 species", () => {
-    expect(PLANTS.length).toBeGreaterThanOrEqual(20);
+  it("has exactly the 67 species on the longan-plot sign list, numbered 1–67 without gaps", () => {
+    expect(PLANTS.length).toBe(67);
+    const nos = PLANTS.map((p) => p.signNo);
+    expect(nos).toEqual(Array.from({ length: 67 }, (_, i) => i + 1));
   });
 
   it("has unique slugs and scientific names", () => {
@@ -47,8 +49,15 @@ describe("plant knowledge base", () => {
     }
   });
 
-  it("getPlant finds by slug", () => {
-    expect(getPlant("jasminum-sambac")?.thaiName).toBe("มะลิลา");
+  it("getPlant finds by slug and getPlantBySign by sign number", () => {
+    expect(getPlant("alpinia-galanga")?.thaiName).toBe("ข่า");
     expect(getPlant("nope")).toBeUndefined();
+    expect(getPlantBySign(67)?.thaiName).toBe("อินทนิล");
+    expect(getPlantBySign(1)?.slug).toBe("irvingia-malayana");
+  });
+
+  it("sign names match the garden list for a sample of entries", () => {
+    const expected: Record<number, string> = { 2: "กันเกรา", 13: "ไคร้หอม (ตะไคร้หอม)", 29: "บุนนาค", 45: "มหาหงส์", 60: "สาวสันทราย", 66: "เหลืองเชียงราย" };
+    for (const [no, name] of Object.entries(expected)) expect(getPlantBySign(Number(no))?.thaiName).toBe(name);
   });
 });

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { Plant, ScentFamily } from "@/data/types";
+import { PLOT, type Plant, type ScentFamily } from "@/data/types";
 import { UI, t } from "@/lib/i18n";
 import { useLang } from "@/lib/lang-context";
 
@@ -46,6 +46,9 @@ export function PlantCard({ plant }: { plant: Plant }) {
     <Link href={`/plants/${plant.slug}`} className="card block transition hover:border-moss/40 hover:shadow">
       <div className="flex items-start justify-between gap-3">
         <div>
+          <span className="mb-1 inline-block rounded-md bg-forest px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-paper">
+            {t(UI.plant.sign, lang)} {plant.signNo}
+          </span>
           <h3 className="text-lg font-semibold text-forest">{lang === "th" ? plant.thaiName : plant.englishName}</h3>
           <p className="text-sm text-ink/70">{lang === "th" ? plant.englishName : plant.thaiName}</p>
           <p className="text-sm italic text-ink/60">{plant.scientificName}</p>
@@ -133,6 +136,12 @@ export function PlantDetail({ plant, compact = false }: { plant: Plant; compact?
     <div className="space-y-5">
       {!compact && (
         <header>
+          <p className="mb-1 text-xs text-ink/60">
+            <span className="rounded-md bg-forest px-1.5 py-0.5 font-semibold tabular-nums text-paper">
+              {t(UI.plant.sign, lang)} {plant.signNo}
+            </span>{" "}
+            · {t(UI.plant.plot, lang)}: {t(PLOT.name, lang)} · {t(PLOT.plantedLabel, lang)}
+          </p>
           <h1 className="text-2xl font-bold text-forest">{lang === "th" ? plant.thaiName : plant.englishName}</h1>
           <p className="text-ink/70">{lang === "th" ? plant.englishName : plant.thaiName}</p>
           <p className="italic text-ink/60">
@@ -143,6 +152,7 @@ export function PlantDetail({ plant, compact = false }: { plant: Plant; compact?
               {t(UI.plant.otherNames, lang)}: {plant.otherNames.join(", ")}
             </p>
           )}
+          {plant.identityUncertain && <p className="mt-2 rounded-lg border border-sun/50 bg-sun/10 px-3 py-1.5 text-xs text-bark">⚠️ {t(UI.plant.uncertain, lang)}</p>}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <ScentChips families={plant.scentFamilies} />
             <span className="text-xs text-ink/60">

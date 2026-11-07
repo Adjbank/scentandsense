@@ -39,6 +39,8 @@ export interface Source {
 
 export interface Plant {
   slug: string;
+  /** หมายเลขบนป้ายชื่อในสวน (แปลงลำไย) */
+  signNo: number;
   thaiName: string;
   englishName: string;
   scientificName: string;
@@ -65,4 +67,14 @@ export interface Plant {
   /** คำชวนสัมผัส (Shinrin-Yoku prompt) */
   sensePrompt: L;
   sources: Source[];
+  /** ชื่อวิทยาศาสตร์ยังไม่ยืนยันจากตัวอย่างจริงในสวน (ชื่อพื้นบ้านอาจใช้กับหลายชนิด) */
+  identityUncertain?: boolean;
 }
+
+/** ข้อมูลแปลงปลูกที่ป้ายอ้างถึง */
+export const PLOT = {
+  name: { th: "แปลงลำไย (สมุนไพรในสวนลำไย)", en: "Longan plot (herbs in the longan orchard)" },
+  plantedFrom: "2026-02-26",
+  plantedTo: "2026-02-28",
+  plantedLabel: { th: "ปลูกวันที่ 26–28 กุมภาพันธ์ 2569", en: "Planted 26–28 February 2026" },
+} as const;

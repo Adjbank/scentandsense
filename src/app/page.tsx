@@ -6,7 +6,7 @@ import { UI, t } from "@/lib/i18n";
 import { useLang } from "@/lib/lang-context";
 import { PlantCard } from "@/components/PlantBits";
 
-const FEATURED = ["vallaris-glabra", "cananga-odorata", "pinus-kesiya"];
+const FEATURED = ["hedychium-coronarium", "shorea-roxburghii", "radermachera-ignea"];
 
 export default function Home() {
   const { lang } = useLang();

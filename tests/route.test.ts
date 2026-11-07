@@ -65,7 +65,7 @@ describe("POST /api/identify", () => {
           result: {
             isPlant: true,
             observedFeatures: ["ใบเรียวยาว"],
-            candidates: [{ scientificName: "Cymbopogon citratus", thaiName: "ตะไคร้", englishName: "Lemongrass", family: "Poaceae", confidence: 0.85, matchedSlug: "cymbopogon-citratus", reasoning: "ใบหญ้า" }],
+            candidates: [{ scientificName: "Cymbopogon nardus", thaiName: "ตะไคร้หอม", englishName: "Citronella", family: "Poaceae", confidence: 0.85, matchedSlug: "cymbopogon-nardus", reasoning: "ใบหญ้า" }],
             scentSummary: { th: "", en: "" },
             historySummary: { th: "", en: "" },
           },
@@ -77,7 +77,8 @@ describe("POST /api/identify", () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.candidates[0].inKnowledgeBase).toBe(true);
-    expect(json.candidates[0].plant.compounds[0].name).toContain("citral");
+    expect(json.candidates[0].plant.compounds[0].name).toContain("geraniol");
+    expect(json.candidates[0].plant.signNo).toBe(13);
   });
 
   it("maps a refusal to 422", async () => {
