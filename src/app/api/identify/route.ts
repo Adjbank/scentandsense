@@ -3,11 +3,16 @@ import { NextResponse } from "next/server";
 import { PLANTS } from "@/data/plants";
 import { IdentifyRequestSchema } from "@/lib/identify/schema";
 import { mergeWithKnowledgeBase } from "@/lib/identify/merge";
-import { hasApiKey, identifyWithClaude, IdentifyParseError, IdentifyRefusedError } from "@/lib/identify/claude";
+import { hasApiKey, identifyWithClaude, IdentifyParseError, IdentifyRefusedError, MODEL } from "@/lib/identify/claude";
 
 export const maxDuration = 60;
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+
+/** สถานะความพร้อม — บอกเพียงว่าตั้งคีย์แล้วหรือยัง ไม่เปิดเผยค่าคีย์ */
+export async function GET() {
+  return NextResponse.json({ ready: hasApiKey(), model: MODEL }, { headers: { "cache-control": "no-store" } });
+}
 
 export async function POST(request: Request) {
   if (!hasApiKey()) {

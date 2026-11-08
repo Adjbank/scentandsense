@@ -25,6 +25,16 @@ describe("POST /api/identify", () => {
     vi.restoreAllMocks();
   });
 
+  it("GET reports readiness without exposing the key", async () => {
+    const { GET } = await loadRoute();
+    expect(await (await GET()).json()).toEqual({ ready: false, model: "claude-opus-5-5" });
+    process.env.ANTHROPIC_API_KEY = "sk-secret";
+    const { GET: GET2 } = await loadRoute();
+    const text = await (await GET2()).text();
+    expect(JSON.parse(text).ready).toBe(true);
+    expect(text).not.toContain("sk-secret");
+  });
+
   it("returns 503 NO_API_KEY when no credentials are configured", async () => {
     const { POST } = await loadRoute();
     const res = await POST(post({ image: "x".repeat(200), mediaType: "image/jpeg" }));
