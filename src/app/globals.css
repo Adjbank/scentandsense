@@ -1,24 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f7f5ee;
-  --ink: #1f2a22;
-  --forest: #1f4d3a;
-  --moss: #5d8a66;
-  --leaf: #9ccc9c;
+  --paper: #f4f3ed;
+  --cream: #faf9f4;
+  --ink: #233027;
+  --forest: #2f4f3e;
+  --moss: #6b8f73;
+  --leaf: #a9cfa6;
+  --sage: #e6ece2;
   --sun: #e4b04a;
   --bark: #6b4f3a;
 }
 
 @theme inline {
   --color-paper: var(--paper);
+  --color-cream: var(--cream);
   --color-ink: var(--ink);
   --color-forest: var(--forest);
   --color-moss: var(--moss);
   --color-leaf: var(--leaf);
+  --color-sage: var(--sage);
   --color-sun: var(--sun);
   --color-bark: var(--bark);
   --font-sans: "Noto Sans Thai", "Sarabun", "Noto Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Noto Serif Thai", "Sarabun", Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -32,18 +37,38 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+@layer components {
 .card {
-  @apply rounded-2xl border border-moss/15 bg-white/80 p-4 shadow-sm;
+  @apply rounded-2xl border border-moss/15 bg-cream p-4 shadow-sm;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest px-5 py-3 font-medium text-paper shadow transition hover:bg-forest/90 active:scale-[0.98] disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest px-5 py-3 font-medium text-paper shadow-sm transition hover:bg-forest/90 active:scale-[0.98] disabled:opacity-50;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest/30 bg-white/70 px-5 py-3 font-medium text-forest transition hover:bg-moss/10 active:scale-[0.98] disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest/25 bg-cream px-5 py-3 font-medium text-forest transition hover:bg-sage active:scale-[0.98] disabled:opacity-50;
 }
 
 .chip {
-  @apply inline-block rounded-full bg-leaf/30 px-2.5 py-0.5 text-xs font-medium text-forest;
+  @apply inline-block rounded-full bg-sage px-3 py-1 text-xs font-medium text-forest;
+}
+
+.section-title {
+  @apply font-serif text-center text-2xl font-semibold text-forest sm:text-3xl;
+}
+}
+
+.section-title::after {
+  content: "🌿";
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
 }

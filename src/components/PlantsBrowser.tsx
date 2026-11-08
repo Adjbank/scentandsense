@@ -50,7 +50,7 @@ export function PlantsBrowser() {
       <p className="text-xs text-ink/60">
         {list.length} {t(UI.plant.count, lang)}
       </p>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {list.map((p) => (
           <PlantCard key={p.slug} plant={p} />
         ))}

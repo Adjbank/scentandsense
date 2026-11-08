@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col">
         <LangProvider>
           <Header />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-5">{children}</main>
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-5">{children}</main>
           <Footer />
           <TabBar />
         </LangProvider>
