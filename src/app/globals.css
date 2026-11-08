@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f4f3ed;
-  --cream: #faf9f4;
-  --ink: #233027;
-  --forest: #2f4f3e;
-  --moss: #6b8f73;
-  --leaf: #a9cfa6;
-  --sage: #e6ece2;
-  --sun: #e4b04a;
-  --bark: #6b4f3a;
+  --paper: #f6f2e9;
+  --cream: #fffcf5;
+  --ink: #2b2a22;
+  --forest: #2e4733;
+  --moss: #74905c;
+  --leaf: #b9d39a;
+  --sage: #ebeedf;
+  --sun: #e8b66a;
+  --sky: #dfe9f1;
+  --bark: #7a5a3c;
 }
 
 @theme inline {
@@ -21,6 +22,7 @@
   --color-leaf: var(--leaf);
   --color-sage: var(--sage);
   --color-sun: var(--sun);
+  --color-sky: var(--sky);
   --color-bark: var(--bark);
   --font-sans: "Noto Sans Thai", "Sarabun", "Noto Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Noto Serif Thai", "Sarabun", Georgia, "Times New Roman", serif;

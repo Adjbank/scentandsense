@@ -5,7 +5,8 @@ export const UI = {
   tagline: { th: "อาบป่า ฟังกลิ่น รู้จักพืชพรรณไทย", en: "Bathe in the forest. Listen to scent. Meet Thai plants." },
   nav: {
     home: { th: "หน้าแรก", en: "Home" },
-    identify: { th: "ถ่ายรูปต้นไม้", en: "Identify" },
+    meditate: { th: "สมาธิ", en: "Meditate" },
+    identify: { th: "ถ่ายรูป", en: "Identify" },
     plants: { th: "พืชหอม", en: "Plants" },
     walk: { th: "เดินอาบป่า", en: "Walk" },
   },

@@ -1,6 +1,9 @@
 import type { Plant } from "@/data/types";
 
-const FAMILY_COLOR: Record<string, { leaf: string; dark: string; pot: string }> = {
+const FAMILY_COLOR: Record<
+  string,
+  { leaf: string; dark: string; pot: string }
+> = {
   floral: { leaf: "#9ccc9c", dark: "#5d8a66", pot: "#e8d9c8" },
   citrus: { leaf: "#b7d98a", dark: "#6f9a4a", pot: "#d9c7a7" },
   herbal: { leaf: "#8fbf9f", dark: "#4f7f63", pot: "#cfd8c2" },
@@ -13,7 +16,13 @@ const FAMILY_COLOR: Record<string, { leaf: string; dark: string; pot: string }> 
 };
 
 /** ภาพประกอบต้นไม้ในกระถางแบบ SVG (ใช้แทนรูปถ่ายจนกว่าจะมีภาพจริงจากสวน) */
-export function PlantArt({ plant, className = "" }: { plant: Plant; className?: string }) {
+export function PlantArt({
+  plant,
+  className = "",
+}: {
+  plant: Plant;
+  className?: string;
+}) {
   const c = FAMILY_COLOR[plant.scentFamilies[0]] ?? FAMILY_COLOR.green;
   const seed = plant.signNo;
   const tall = plant.scentedPart === "wood" || plant.scentedPart === "resin";
@@ -21,13 +30,32 @@ export function PlantArt({ plant, className = "" }: { plant: Plant; className?: 
   const fruit = plant.scentedPart === "fruit";
   const leaves = 5 + (seed % 3);
   return (
-    <svg viewBox="0 0 160 160" className={className} role="img" aria-label={plant.thaiName}>
+    <svg
+      viewBox="0 0 160 160"
+      className={className}
+      role="img"
+      aria-label={plant.thaiName}
+    >
       <rect width="160" height="160" rx="18" fill="#f1f3ec" />
       {/* pot */}
       <path d="M52 112 h56 l-6 36 h-44 z" fill={c.pot} />
-      <rect x="46" y="104" width="68" height="12" rx="4" fill={c.dark} opacity="0.85" />
+      <rect
+        x="46"
+        y="104"
+        width="68"
+        height="12"
+        rx="4"
+        fill={c.dark}
+        opacity="0.85"
+      />
       {/* stem */}
-      <path d={`M80 108 C80 ${tall ? 40 : 70} 80 ${tall ? 30 : 60} 80 ${tall ? 24 : 52}`} stroke={c.dark} strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path
+        d={`M80 108 C80 ${tall ? 40 : 70} 80 ${tall ? 30 : 60} 80 ${tall ? 24 : 52}`}
+        stroke={c.dark}
+        strokeWidth="4"
+        fill="none"
+        strokeLinecap="round"
+      />
       {/* leaves */}
       {Array.from({ length: leaves }).map((_, i) => {
         const t = i / (leaves - 1);
@@ -37,8 +65,16 @@ export function PlantArt({ plant, className = "" }: { plant: Plant; className?: 
         const rot = side * (25 + ((seed + i * 5) % 20));
         return (
           <g key={i} transform={`translate(80 ${y}) rotate(${rot})`}>
-            <path d={`M0 0 C ${side * len * 0.4} -${len * 0.35}, ${side * len} -${len * 0.1}, ${side * len} 0 C ${side * len} ${len * 0.1}, ${side * len * 0.4} ${len * 0.35}, 0 0 Z`} fill={i % 3 === 0 ? c.dark : c.leaf} />
-            <path d={`M0 0 L ${side * len * 0.9} 0`} stroke={c.dark} strokeWidth="1" opacity="0.5" />
+            <path
+              d={`M0 0 C ${side * len * 0.4} -${len * 0.35}, ${side * len} -${len * 0.1}, ${side * len} 0 C ${side * len} ${len * 0.1}, ${side * len * 0.4} ${len * 0.35}, 0 0 Z`}
+              fill={i % 3 === 0 ? c.dark : c.leaf}
+            />
+            <path
+              d={`M0 0 L ${side * len * 0.9} 0`}
+              stroke={c.dark}
+              strokeWidth="1"
+              opacity="0.5"
+            />
           </g>
         );
       })}
@@ -49,7 +85,17 @@ export function PlantArt({ plant, className = "" }: { plant: Plant; className?: 
           return (
             <g key={i} transform={`translate(${x} ${y})`}>
               {[0, 72, 144, 216, 288].map((a) => (
-                <ellipse key={a} cx="0" cy="-6" rx="3.2" ry="6" fill="#fff6e8" stroke="#e4c48a" strokeWidth="0.6" transform={`rotate(${a})`} />
+                <ellipse
+                  key={a}
+                  cx="0"
+                  cy="-6"
+                  rx="3.2"
+                  ry="6"
+                  fill="#fff6e8"
+                  stroke="#e4c48a"
+                  strokeWidth="0.6"
+                  transform={`rotate(${a})`}
+                />
               ))}
               <circle r="2.6" fill="#e4b04a" />
             </g>
@@ -57,7 +103,13 @@ export function PlantArt({ plant, className = "" }: { plant: Plant; className?: 
         })}
       {fruit &&
         [0, 1, 2, 3].map((i) => (
-          <circle key={i} cx={66 + ((seed * 5 + i * 17) % 30)} cy={62 + ((seed + i * 9) % 30)} r="4" fill={i % 2 ? "#b45a5a" : "#6b3f7a"} />
+          <circle
+            key={i}
+            cx={66 + ((seed * 5 + i * 17) % 30)}
+            cy={62 + ((seed + i * 9) % 30)}
+            r="4"
+            fill={i % 2 ? "#b45a5a" : "#6b3f7a"}
+          />
         ))}
     </svg>
   );

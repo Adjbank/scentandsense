@@ -5,6 +5,7 @@ import { PLOT, type Plant, type ScentFamily } from "@/data/types";
 import { UI, t } from "@/lib/i18n";
 import { useLang } from "@/lib/lang-context";
 import { PlantArt } from "./PlantArt";
+import { EVIDENCE, MODE_LABEL, SESSIONS, getStory } from "@/data/mindful";
 
 export const SCENT_FAMILY_LABEL: Record<
   ScentFamily,
@@ -246,6 +247,8 @@ export function PlantDetail({
         </p>
       </section>
 
+      <MindfulStory slug={plant.slug} />
+
       <section className="card">
         <h2 className="mb-2 font-semibold text-forest">
           {t(UI.plant.compounds, lang)}
@@ -285,5 +288,45 @@ export function PlantDetail({
         <SourceList plant={plant} />
       </section>
     </div>
+  );
+}
+
+function MindfulStory({ slug }: { slug: string }) {
+  const { lang } = useLang();
+  const story = getStory(slug);
+  if (!story) return null;
+  const session = SESSIONS.find((x) => x.plantSlug === slug);
+  return (
+    <section className="rounded-2xl bg-forest p-5 text-paper">
+      <div className="text-xs text-paper/70">
+        {MODE_LABEL[story.mode].icon}{" "}
+        {lang === "th" ? "กลิ่นช่วยสมาธิ" : "Scent for the mind"} ·{" "}
+        {t(MODE_LABEL[story.mode], lang)}
+      </div>
+      <p className="mt-2 text-sm leading-relaxed">{t(story.story, lang)}</p>
+      <ul className="mt-3 space-y-2 text-xs text-paper/80">
+        {story.evidence.map((e) => (
+          <li key={e}>
+            <span className="font-semibold text-paper">
+              {EVIDENCE[e].compound}:
+            </span>{" "}
+            {t(EVIDENCE[e].effect, lang)}{" "}
+            <span className="italic">
+              ({EVIDENCE[e].source.authors} {EVIDENCE[e].source.year},{" "}
+              {EVIDENCE[e].source.publisher})
+            </span>
+          </li>
+        ))}
+      </ul>
+      {session && (
+        <Link
+          href={`/meditate/${session.id}`}
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-cream px-4 py-2 text-sm font-medium text-forest"
+        >
+          ▶ {t(session.title, lang)} · {session.minutes}{" "}
+          {lang === "th" ? "นาที" : "min"}
+        </Link>
+      )}
+    </section>
   );
 }
